@@ -1,5 +1,6 @@
 package com.seowon.coding.controller;
 
+import com.seowon.dto.CreateOrderDto;
 import com.seowon.coding.domain.model.Order;
 import com.seowon.coding.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,7 +49,28 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
+    @PostMapping("")
+    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderDto createOrderDto) {
+        try {
+            ArrayList<Long> productIds = new ArrayList<>();
+            ArrayList<Integer> quantity = new ArrayList<>();
+
+            for(int i=0; i<createOrderDto.getProducts().size(); i++) {
+                productIds.add(createOrderDto.getProducts().get(i).getProductId());
+                quantity.add(createOrderDto.getProducts().get(i).getQuantity());
+            }
+
+            orderService.placeOrder(createOrderDto.getCustomerName(),
+                    createOrderDto.getCustomerEmail(),
+                    productIds,
+                    quantity);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     /**
      * TODO #2: 주문을 생성하는 API 구현
      * 구현목록:
