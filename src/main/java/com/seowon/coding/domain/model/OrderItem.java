@@ -53,6 +53,7 @@ public class OrderItem {
                 .quantity(qty)
                 .price(product.getPrice())
                 .build();
+
         order.getItems().add(item);
         product.decreaseStock(qty);
 

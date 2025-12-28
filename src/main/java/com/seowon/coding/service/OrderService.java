@@ -77,7 +77,7 @@ public class OrderService {
                     .product(product)
                     .build();
 
-            orderItem.setPrice(orderItem.getSubtotal());
+            orderItem.setPrice(product.getPrice());
             newOrder.addItem(orderItem);
 
             product.decreaseStock(quantity);
@@ -85,7 +85,7 @@ public class OrderService {
 
         orderRepository.save(newOrder);
 
-        return null;
+        return newOrder;
     }
 
     /**
