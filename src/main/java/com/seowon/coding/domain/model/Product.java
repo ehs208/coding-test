@@ -54,4 +54,6 @@ public class Product {
         }
         stockQuantity += quantity;
     }
+
+
 }
